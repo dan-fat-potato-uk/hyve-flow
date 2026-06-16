@@ -3,7 +3,7 @@ import logging as log
 from pathlib import Path
 
 from annotated_types import Annotated
-from conflator import CLIArg, ConfigModel, Conflator
+from conflator import CLIArg
 from hyve.config import ExtractorConfig
 from hyve.extraction import extractor
 from pydantic import Field, ConfigDict, BaseModel
@@ -47,7 +47,7 @@ class ExtractStationConfig(StrictBaseModel):
     ] = False
 
 
-def getConfig(app_config, input_file, output_file) -> ExtractorConfig:
+def getConfig(app_config: ExtractStationConfig, input_file: str, output_file: str) -> ExtractorConfig:
     return ExtractorConfig(
         **{
             "station": {
