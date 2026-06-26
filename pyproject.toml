@@ -1,0 +1,85 @@
+[build-system]
+requires = ["setuptools>=65", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "hyve-flow"
+requires-python = ">=3.10"
+authors = [
+    {name = "European Centre for Medium-Range Weather Forecasts (ECMWF)", email = "software.support@ecmwf.int"},
+]
+license = { text = "Apache License Version 2.0" }
+description = "Tools and utilities for hydrological verification"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Science/Research",
+    "Natural Language :: English",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering"
+    ]
+dynamic = ["version", "readme"]
+
+dependencies = [
+    "pyflow",
+    "annotated_types",
+    "conflator",
+    "hydro-verification"
+]
+
+[project.urls]
+    repository = "https://github.com/ecmwf/hyve-flow"
+    documentation = "https://github.com/ecmwf/hyve-flow"
+    issues = "https://github.com/ecmwf/hyve-flow/issues"
+
+
+[project.scripts]
+    build-extraction-task = "hyve_flow.extract_stations:build_extraction_task"
+    hyve-extract-stations = "hyve_flow.extract_stations:main"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pre-commit",
+]
+
+[tool.pytest]
+filterwarnings = [
+	# This warning is raised due to netcdf4 but likely is harmless. See
+	# https://github.com/Unidata/netcdf4-python/issues/1354 for more context.
+	"ignore:numpy.ndarray size changed"
+]
+
+[tool.black]
+line-length = 88
+skip-string-normalization = false
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.ruff]
+line-length = 88
+
+[tool.setuptools.packages.find]
+include = [ "hyve_flow" ]
+where = [ "src" ]
+
+[tool.setuptools_scm]
+version_file = "src/hyve_flow/_version.py"
+local_scheme = "no-local-version"
+fallback_version = "0.1.0dev0"
+
+[tool.setuptools.dynamic]
+readme = {file = ["README.md"], content-type = "text/markdown"}
