@@ -9,7 +9,7 @@ from hyve.config import ExtractorConfig
 from hyve.extraction import extractor
 from pydantic import Field
 
-# import pyflow as pf
+import pyflow as pf
 
 # Configure logging
 log.basicConfig(level=log.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -69,29 +69,29 @@ def getConfig(app_config: ExtractStationConfig, input_file: str, output_file: st
         }
     )
 
-# def build_extraction_task(extraction_config: dict, config_script, preprocess: list | str = [], work_dir: str = ".") -> pf.Task:
-#     config = {
-#         **extraction_config,
-#         "working-dir": work_dir,
-#     }
+def build_extraction_task(extraction_config: dict, config_script, preprocess: list | str = [], work_dir: str = ".") -> pf.Task:
+    config = {
+        **extraction_config,
+        "working-dir": work_dir,
+    }
 
-#     script = [*config_script(config=config, out_path="extract.yaml")]
+    script = [*config_script(config=config, out_path="extract.yaml")]
 
-#     if isinstance(preprocess, str):
-#         script.append(preprocess)
-#     else:
-#         script.extend(preprocess)
-#     script.append(dedent("""
-#         cd $WORKDIR
-#         hyve-extract-stations -f extract.yaml
-#     """))
+    if isinstance(preprocess, str):
+        script.append(preprocess)
+    else:
+        script.extend(preprocess)
+    script.append(dedent("""
+        cd $WORKDIR
+        hyve-extract-stations -f extract.yaml
+    """))
 
-#     return pf.Task(
-#         name="extract_stations",
-#         variables={"WORKDIR": work_dir},
-#         script=script,
-#         submit_arguments="large",
-#     )
+    return pf.Task(
+        name="extract_stations",
+        variables={"WORKDIR": work_dir},
+        script=script,
+        submit_arguments="large",
+    )
 
 
 def main():
