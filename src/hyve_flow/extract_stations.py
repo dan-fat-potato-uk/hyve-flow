@@ -82,6 +82,7 @@ def build_extraction_task(extraction_config: dict, config_script, preprocess: li
     else:
         script.extend(preprocess)
     script.append(dedent("""
+        mkdir -p $WORKDIR
         cd $WORKDIR
         hyve-extract-stations -f extract.yaml
     """))
