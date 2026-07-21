@@ -69,7 +69,7 @@ def getConfig(app_config: ExtractStationConfig, input_file: str, output_file: st
         }
     )
 
-def build_extraction_task(extraction_config: dict, config_script, preprocess: list | str = [], work_dir: str = ".") -> pf.Task:
+def build_extraction_task(extraction_config: dict, config_script, task_args: dict, preprocess: list | str = [], work_dir: str = ".") -> pf.Task:
     config = {
         **extraction_config,
         "working-dir": work_dir,
@@ -91,7 +91,7 @@ def build_extraction_task(extraction_config: dict, config_script, preprocess: li
         name="extract_stations",
         variables={"WORKDIR": work_dir},
         script=script,
-        submit_arguments="large",
+        **task_args
     )
 
 
