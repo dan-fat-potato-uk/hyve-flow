@@ -48,22 +48,22 @@ class ReanalysisProcessing:
 
         config = get_extraction_config(extraction_config)
 
-        script = [*config_script(config=config, out_path="extract.yaml")]
+        script = []
 
-        if isinstance(preprocess, str):
-            script.append(preprocess)
-        else:
-            script.extend(preprocess)
-        script.append(dedent("""
-            mkdir -p $WORKDIR
-            cd $WORKDIR
-            hyve-extract-timeseries ../extract.yaml
-        """))
+        script = [
+            *([preprocess] if isinstance(preprocess, str) else preprocess),
+            dedent("""
+                mkdir -p $WORKDIR
+                cd $WORKDIR
+                hyve-extract-timeseries extract.yaml
+            """),
+        ]
 
         pf.Task(
             name="extract_stations",
             variables={"WORKDIR": work_dir},
             script=[
+                *config_script(config=config, out_path="extract.yaml"),
                 self.tools.load(self.exec_env),
                 *script
             ],
