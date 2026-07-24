@@ -39,11 +39,6 @@ dependencies = [
     documentation = "https://github.com/ecmwf/hyve-flow"
     issues = "https://github.com/ecmwf/hyve-flow/issues"
 
-
-[project.scripts]
-    build-extraction-task = "hyve_flow.extract_stations:build_extraction_task"
-    hyve-extract-stations = "hyve_flow.extract_stations:main"
-
 [project.optional-dependencies]
 test = [
     "pytest",
