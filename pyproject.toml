@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hyve-flow"
-requires-python = ">=3.10"
+requires-python = ">=3.6"
 authors = [
     {name = "European Centre for Medium-Range Weather Forecasts (ECMWF)", email = "software.support@ecmwf.int"},
 ]
@@ -30,7 +30,8 @@ dependencies = [
     "pyflow",
     "annotated_types",
     "conflator",
-    "hydro-verification"
+    "hydro-verification",
+    "pyflow-wellies"
 ]
 
 [project.urls]
