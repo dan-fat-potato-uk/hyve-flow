@@ -20,7 +20,7 @@ def get_extraction_config(config: dict) -> dict:
         "grid": {
             "source": {
                 "file": {
-                    "path": config["input"],
+                    "path": str(Path(config["working_dir"]) / config["input"]),
                 },
             },
             "coords": {
@@ -29,7 +29,7 @@ def get_extraction_config(config: dict) -> dict:
             },
         },
         "output": {
-            "file": config["output"],
+            "file": str(Path(config["working_dir"]) / config["output"]),
         },
     }
 
@@ -48,8 +48,6 @@ class ReanalysisProcessing:
 
         config = get_extraction_config(extraction_config)
 
-        script = []
-
         script = [
             *([preprocess] if isinstance(preprocess, str) else preprocess),
             dedent("""
@@ -59,7 +57,7 @@ class ReanalysisProcessing:
             """),
         ]
 
-        pf.Task(
+        return pf.Task(
             name="extract_stations",
             variables={"WORKDIR": work_dir},
             script=[
