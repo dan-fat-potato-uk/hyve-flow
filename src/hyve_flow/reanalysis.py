@@ -7,31 +7,6 @@ from wellies import ToolStore
 
 import pyflow as pf
 
-def get_extraction_config(config: dict) -> dict:
-    return {
-        "station": {
-            "file": str(Path(config["working_dir"]) / config["reference"]),
-            "name": config["station_id"],
-            "coords": {
-                "x": "LisfloodX",
-                "y": "LisfloodY",
-            },
-        },
-        "grid": {
-            "source": {
-                "file": {
-                    "path": str(Path(config["working_dir"]) / config["input"]),
-                },
-            },
-            "coords": {
-                "x": "lon",
-                "y": "lat",
-            },
-        },
-        "output": {
-            "file": str(Path(config["working_dir"]) / config["output"]),
-        },
-    }
 
 class ReanalysisProcessing:
     def __init__(self, config: dict, tools: ToolStore, exec_env: str):
@@ -41,12 +16,6 @@ class ReanalysisProcessing:
 
 
     def build_extraction_task(self, config_script, task_args: dict, preprocess: list | str = [], work_dir: str = ".") -> pf.Task:
-        extraction_config = {
-            **self.config,
-            "working_dir": work_dir,
-        }
-
-        config = get_extraction_config(extraction_config)
 
         script = [
             *([preprocess] if isinstance(preprocess, str) else preprocess),
@@ -61,8 +30,8 @@ class ReanalysisProcessing:
             name="extract_stations",
             variables={"WORKDIR": work_dir},
             script=[
+                *config_script(config=self.config, output_file="extract.yaml", work_dir=work_dir),
                 self.tools.load(self.exec_env),
-                *config_script(config=config, output_file="extract.yaml", work_dir=work_dir),
                 *script
             ],
             **task_args
