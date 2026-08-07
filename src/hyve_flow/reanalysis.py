@@ -32,7 +32,7 @@ class ReanalysisProcessing:
             variables={"WORKDIR": work_dir},
             script=[
                 self.tools.load(self.exec_env),
-                *config_script(config=self.config.get("extraction"), output_file="extract.yaml", work_dir=work_dir),
+                *config_script(config=self.config.extraction, output_file="extract.yaml", work_dir=work_dir),
                 *script
             ],
             **task_args
