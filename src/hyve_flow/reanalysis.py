@@ -26,8 +26,9 @@ class ReanalysisProcessing:
             """),
         ]
 
+        task_args.setdefault("name", "extract_stations")
+
         return pf.Task(
-            name="extract_stations",
             variables={"WORKDIR": work_dir},
             script=[
                 self.tools.load(self.exec_env),
