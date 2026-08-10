@@ -1,7 +1,3 @@
-from hyve.config import ExtractorConfig
-
-from pathlib import Path
-
 from textwrap import dedent
 from wellies import ToolStore
 
@@ -26,12 +22,14 @@ class ReanalysisProcessing:
             """),
         ]
 
+        task_args.setdefault("name", "extract_stations")
+        extraction_config = self.config.get("station_extraction")
+
         return pf.Task(
-            name="extract_stations",
             variables={"WORKDIR": work_dir},
             script=[
                 self.tools.load(self.exec_env),
-                *config_script(config=self.config.get("station_extraction"), output_file="extract.yaml", work_dir=work_dir),
+                *config_script(config=extraction_config, output_file="extract.yaml", work_dir=work_dir),
                 *script
             ],
             **task_args
