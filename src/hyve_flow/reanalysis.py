@@ -6,12 +6,17 @@ import pyflow as pf
 
 class ReanalysisProcessing:
     def __init__(self, config: dict, tools: ToolStore, exec_env: str):
-         self.config = config
-         self.tools = tools
-         self.exec_env = exec_env
+        self.config = config
+        self.tools = tools
+        self.exec_env = exec_env
 
-
-    def build_extraction_task(self, config_script, task_args: dict, preprocess: list | str = [], work_dir: str = ".") -> pf.Task:
+    def build_extraction_task(
+        self,
+        config_script,
+        task_args: dict,
+        preprocess: list | str = [],
+        work_dir: str = ".",
+    ) -> pf.Task:
 
         script = [
             *([preprocess] if isinstance(preprocess, str) else preprocess),
@@ -29,8 +34,12 @@ class ReanalysisProcessing:
             variables={"WORKDIR": work_dir},
             script=[
                 self.tools.load(self.exec_env),
-                *config_script(config=extraction_config, output_file="extract.yaml", work_dir=work_dir),
-                *script
+                *config_script(
+                    config=extraction_config,
+                    output_file="extract.yaml",
+                    work_dir=work_dir,
+                ),
+                *script,
             ],
-            **task_args
+            **task_args,
         )
