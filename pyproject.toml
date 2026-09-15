@@ -69,7 +69,7 @@ line_length = 88
 line-length = 88
 
 [tool.setuptools.packages.find]
-include = [ "hyve_flow" ]
+include = [ "hyve_flow*" ]
 where = [ "src" ]
 
 [tool.setuptools.dynamic]
