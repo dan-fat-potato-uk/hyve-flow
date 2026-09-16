@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 else:
     pf = Any
 
-_DATA_SOURCES: dict[str, type["DataSource"]] = {}
+_DATA_SOURCES: dict[str, type[DataSource]] = {}
 
 
 def _normalise_source_name(name: Any) -> str:
@@ -78,9 +78,9 @@ def get_data_source(name: str | DataSource | type[DataSource] | None) -> DataSou
 
 
 __all__ = [
+    "_DATA_SOURCES",
     "DataSource",
     "get_data_source",
     "get_registered_data_sources",
     "register_data_source",
-    "_DATA_SOURCES",
 ]
