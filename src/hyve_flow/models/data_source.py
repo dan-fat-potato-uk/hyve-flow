@@ -39,7 +39,10 @@ def register_data_source(source: type[DataSource] | str):
     if isinstance(source, str):
 
         def decorator(cls: type[DataSource]) -> type[DataSource]:
-            key = _normalise_source_name(getattr(cls, "name", None) or cls.__name__)
+            if not isinstance(cls, type) or not issubclass(cls, DataSource):
+                raise TypeError("source must be a DataSource subclass")
+
+            key = _normalise_source_name(source)
             _DATA_SOURCES[key] = cls
             return cls
 
